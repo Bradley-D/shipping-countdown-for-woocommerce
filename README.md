@@ -1,6 +1,5 @@
-# PLUGIN NAME
-A FILE FOR GITHUB, WRITE A COOL PLUGIN DESCRIPTION
+# Shipping Countdown For WooCommerce
 
 == Description ==
 
-WRITE A COOL PLUGIN DESCRIPTION
+Shipping Countdown For WooCommerce allows you to add a countdown timer to the product page to show shoppers when you will ship the product.

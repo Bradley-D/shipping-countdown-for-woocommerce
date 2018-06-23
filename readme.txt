@@ -1,6 +1,6 @@
-=== PLUGIN NAME ===
-Contributors:
-Tags:
+=== Shipping Countdown For WooCommerce ===
+Contributors: Brad Davis
+Tags: woocommerce, shipping
 Requires at least:
 Tested up to:
 Stable tag: 1.0
