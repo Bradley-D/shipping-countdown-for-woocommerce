@@ -12,29 +12,29 @@ if ( ! defined( 'ABSPATH' ) ) :
 	exit;
 endif;
 
-class PLUGIN_CLASS_file {
+class scfwc_output {
 
   /**
 	 * The Constructor.
 	 * @since 1.0
 	 */
 	function __construct() {
-		$this->CLASS_add_actions_filters();
+		$this->scfwc_output_add_actions_filters();
 	}
 
   /**
 	 * The init for all the actions and filters.
 	 * @since 1.0
 	 */
-	function CLASS_add_actions_filters() {
-		add_action( 'ACTION REFERENCE HOOK', array( $this, 'PLUGIN_NAME_function_name' ) );
+	function scfwc_output_add_actions_filters() {
+		add_action( 'ACTION REFERENCE HOOK', array( $this, 'scfwc_output' ) );
 	}
 
   /**
    * WHAT MAGIC WILL HAPPEN
    * @since 1.0
    */
-  function PLUGIN_CLASS_function_name() {
+  function scfwc_output() {
 		// let the magic happen here
 	}
 
@@ -44,4 +44,4 @@ class PLUGIN_CLASS_file {
  * Instantiate the class.
  * @since 1.0
  */
-$PLUGIN_CLASS_file = new PLUGIN_CLASS_file();
+$scfwc_output = new scfwc_output();

@@ -26,33 +26,18 @@ class scfwc_customizer {
 	 * The init for all the actions and filters.
 	 * @since 1.0
 	 */
-	public static function scfwc_customizer_add_actions_filters() {
-    //self::scfwc_includes();
-		add_action( 'customize_register', __CLASS__ . '::scfwc_customizer_add_options' );
+	public function scfwc_customizer_add_actions_filters() {
+		add_action( 'customize_register', array( $this, 'scfwc_customizer_add_options' ) );
 	}
-
-  /**
-   * Add the includes.
-   * @since 1.0
-   */
-  public static function scfwc_includes() {
-  //  require_once( 'class_extends_customizer.php');
-  }
 
   /**
    * WHAT MAGIC WILL HAPPEN
    * @since 1.0
    */
-  public static function scfwc_customizer_add_options( $wp_customize ) {
+  public function scfwc_customizer_add_options( $wp_customize ) {
 
+    // Include extended class to give multi select option
     require_once( 'class_extends_customizer.php');
-
-		// let the magic happen here
-    // NEED:
-
-    // - select with days of week for shipping
-    // - - need to have multi select
-    // - add time to select shipping countdown
 
     // Add section to WooCommerce Panel
     $wp_customize->add_section( 'scfwc_options',
@@ -65,11 +50,25 @@ class scfwc_customizer {
       )
     );
 
+    // Choose a time
+    $wp_customize->add_setting( 'scfwc_time',
+      array(
+        'default'           => 13,
+        'sanitize_callback' => array( $this, 'scfwc_sanitize_time' ),
+    ) );
+    $wp_customize->add_control( 'scfwc_time',
+      array(
+        'type'        => 'time',
+        'section'     => 'scfwc_options',
+        'label'       => __( 'Closing Time For Next Shipment' ),
+        'description' => __( 'For example, you ship at 3pm every Wednesday, but you need all purchases to be made before 1pm on Wednesday to be included, enter 1pm below.' ),
+      ) );
+
     // Choose Shipping Countdown days of shipping
     $wp_customize->add_setting( 'scfwc_select_days',
       array(
-        'default' => 'scfwc_ship_fri',
-        'sanitize_callback' => __CLASS__ . '::scfwc_sanitize_day',
+        'default'           => 'scfwc_ship_fri',
+        'sanitize_callback' => array( $this, 'scfwc_sanitize_day'),
       )
     );
     $wp_customize->add_control( new scfwc_dropdown_custom_control( $wp_customize, 'scfwc_select_days',
@@ -95,68 +94,81 @@ class scfwc_customizer {
     // Choose Shipping Countdown output location
     $wp_customize->add_setting( 'scfwc_render_location',
       array(
-        'default' => 'scfwc_after_add_cart',
-        'sanitize_callback' => __CLASS__ . '::scfwc_sanitize_location',
+        'default'           => 'scfwc_after_add_cart',
+        'sanitize_callback' => array( $this, 'scfwc_sanitize_location'),
       )
     );
     $wp_customize->add_control( 'scfwc_render_location',
       array(
-        'label'    => __( 'Add shipping countdown to:', 'scfwc' ),
+        'label'       => __( 'Add shipping countdown to:', 'scfwc' ),
         'description' => __( 'Choose the location that you would like the shipping countdown to display.', 'scfwc'),
-        'settings' => 'scfwc_render_location',
-        'section'  => 'scfwc_options',
-        'type'     => 'select',
-        'choices'  => array(
-          'scfwc_after_heading'      => __( 'After product heading', 'scfwc' ),
-          'scfwc_after_price'        => __( 'After product price', 'scfwc' ),
-          'scfwc_after_short_desc'   => __( 'After short description', 'scfwc' ),
-          'scfwc_after_add_cart'     => __( 'After add to cart', 'scfwc' ),
+        'settings'    => 'scfwc_render_location',
+        'section'     => 'scfwc_options',
+        'type'        => 'select',
+        'choices'     => array(
+          'scfwc_after_heading'    => __( 'After product heading', 'scfwc' ),
+          'scfwc_after_price'      => __( 'After product price', 'scfwc' ),
+          'scfwc_after_short_desc' => __( 'After short description', 'scfwc' ),
+          'scfwc_after_add_cart'   => __( 'After add to cart', 'scfwc' ),
         ),
       )
     );
 	}
 
+	/**
+	 * Check the time option is real
+	 * @param  string $input
+	 * @return string $input
+	 * @since 1.0
+	 */
+	public function scfwc_sanitize_time( $input ) {
+		$time = new DateTime( $input );
+		return $time->format('H:i');
+	}
+
   /**
    * Check the shipping day option is real
+   * @param  string[] $input
    * @return string $input
    * @since 1.0
    */
-  public static function scfwc_sanitize_day( $input ) {
+  public function scfwc_sanitize_day( $input ) {
     $scfwc_valid_day = array(
-      'scfwc_ship_mon' => 'Monday',
-      'scfwc_ship_tue' => 'Tuesday',
-      'scfwc_ship_wed' => 'Wednesday',
-      'scfwc_ship_thu' => 'Thursday',
-      'scfwc_ship_fri' => 'Friday',
-      'scfwc_ship_sat' => 'Saturday',
-      'scfwc_ship_sun' => 'Sunday',
+      'scfwc_ship_mon',
+      'scfwc_ship_tue',
+      'scfwc_ship_wed',
+      'scfwc_ship_thu',
+      'scfwc_ship_fri',
+      'scfwc_ship_sat',
+      'scfwc_ship_sun',
     );
-
-    if ( array_key_exists( $input, $scfwc_valid_day ) ) :
-      return $input;
-    else :
-      return '';
-    endif;
+    foreach ( $input as $key => $val ) {
+      if ( in_array( $val, $scfwc_valid_day  ) ) {
+        $input[ $key ] = $val;
+      }
+    }
+    return $input;
   }
 
   /**
    * Check the render locatoin option is real
+	 * @param  string[] $input
    * @return string $input
    * @since 1.0
    */
-  public static function scfwc_sanitize_location( $input ) {
+  public function scfwc_sanitize_location( $input ) {
     $scfwc_valid_location = array(
-      'scfwc_after_heading'      => 'After product heading',
-      'scfwc_after_price'        => 'After product price',
-      'scfwc_after_short_desc'   => 'After short description',
-      'scfwc_after_add_cart'     => 'After add to cart',
+      'scfwc_after_heading',
+      'scfwc_after_price',
+      'scfwc_after_short_desc',
+      'scfwc_after_add_cart',
     );
-
-    if ( array_key_exists( $input, $scfwc_valid_location ) ) :
-      return $input;
-    else :
-      return '';
-    endif;
+    foreach ( $input as $key => $val ) {
+      if ( in_array( $val, $scfwc_valid_location  ) ) {
+        $input[ $key ] = $val;
+      }
+    }
+    return $input;
   }
 
 } // END class
