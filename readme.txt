@@ -7,11 +7,11 @@ Stable tag: 1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-WRITE A COOL PLUGIN NAME DESCRIPTION HERE
+Shipping Countdown For WooCommerce allows you to add a countdown timer to the product page to show shoppers when you will ship the product.
 
 == Description ==
 
-WRITE A COOL PLUGIN NAME DESCRIPTION HERE
+Shipping Countdown For WooCommerce allows you to add a countdown timer to the product page to show shoppers when you will ship the product.
 
 == Installation ==
 

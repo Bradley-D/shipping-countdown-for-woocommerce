@@ -75,7 +75,7 @@ class scfwc_customizer {
     $wp_customize->add_control( new scfwc_dropdown_custom_control( $wp_customize, 'scfwc_select_days',
       array(
         'label'       => __( 'Select shipping days', 'scfwc' ),
-        'description' => __( 'Choose the days that you ship products.', 'scfwc'),
+        'description' => __( 'Choose the days that you ship products. You can select multiple days', 'scfwc'),
         'settings'    => 'scfwc_select_days',
         'section'     => 'scfwc_options',
         'type'        => 'multiple-select',
