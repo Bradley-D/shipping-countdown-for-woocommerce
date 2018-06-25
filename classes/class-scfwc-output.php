@@ -27,7 +27,7 @@ class scfwc_output {
 	 * @since 1.0
 	 */
 	function scfwc_output_add_actions_filters() {
-		//add_action( 'ACTION REFERENCE HOOK', array( $this, 'scfwc_output_js' ), 999 );
+		add_action( 'wp_footer', array( $this, 'scfwc_output_js' ), 999 );
 
 		$scfwc_render_location = get_theme_mod( 'scfwc_render_location');
 		switch ( $scfwc_render_location ) :
@@ -48,10 +48,58 @@ class scfwc_output {
 
   /**
    * Calculate the time in JS
-   * @since 1.0
+	 * Note: Some vars have picked up some whitespace, used trim to remove.
+	 * @return string
+	 * @since 1.0
    */
-  function scfwc_output_js() { ?>
-		<script type="text/javascript"></script> <?php
+  function scfwc_output_js() {
+		$sc_today = new dateTime();
+		$sc_days_converted = array();
+		// Get wp set timezone
+		$sc_timezone_wp = get_option( 'gmt_offset' );
+		// If timezone is + we need to add the + for the JS
+		$sc_timezone = ( $sc_timezone_wp >= 0 ? '+' . $sc_timezone_wp : $sc_timezone_wp );
+		// Get shipping countdown shipping time
+		$sc_time = get_theme_mod( 'scfwc_time' );
+		// Convert the time string to unix timestamp
+		$sc_time_converted = strtotime( get_theme_mod( 'scfwc_time' ) );
+		// Get shipping countdown days selected to ship
+		$sc_days = get_theme_mod( 'scfwc_select_days' );
+		// Get a numerical value for the day
+		$sc_day_x = date_format( $sc_today, 'N' );
+
+		//
+		if ( sizeof( $sc_days ) > 1 ) :
+			foreach ( $sc_days as $sc_day => $sc_day_val ) :
+
+				// if ( $sc_day_val <= $sc_day_x ) :
+				// 	if ( strtotime( 'now' ) < $sc_time_converted  ) :
+				// 		// do things
+				// 	endif;
+				// endif;
+
+			endforeach;
+		else :
+			foreach ( $sc_days as $sc_day => $sc_day_val ) :
+				if ( trim( $sc_day_val, ' ' ) == $sc_day_x ) :
+					// Check if we are before the shipping time
+					if ( strtotime( 'now' ) < $sc_time_converted ) :
+						// we are today and shipping today
+						$sc_shipping = date_format( $sc_today, 'M d, Y' ) . ' ' . $sc_time . ' UTC' . $sc_timezone;
+						else :
+						// we are shipping next week on this days
+						$sc_shipping = date( 'M d, Y', strtotime( '7 days' ) ) . ' ' . $sc_time . ' UTC' . $sc_timezone;
+					endif;
+				endif;
+			endforeach;
+		endif;
+
+		// Pass the new shipping into the JS Date()
+		// Init the clock and add the countdown to the dom #countdown ?>
+		<script type="text/javascript">
+			var deadline = new Date('<?php echo $sc_shipping; ?>');
+			initializeClock('shipping-countdown', deadline);
+		</script> <?php
 	}
 
 	/**
@@ -60,7 +108,7 @@ class scfwc_output {
 	 */
 	function scfwc_html_product() { ?>
 			<div id="shipping-countdown">
-				<h1>Shipping Location</h1>
+				<p class="title">Shipping Location</p>
 			  <div>
 			    <span class="days"></span>
 			    <div class="smalltext">Days</div>
