@@ -67,7 +67,7 @@ class scfwc {
 	 * @since 1.0
 	 */
 	public static function scfwc_enqueue_style() {
-		wp_enqueue_style( 'scfwc-style', plugin_dir_url( __FILE__ ) . 'css/scfwc-style.css', 'DATE' );
+		wp_enqueue_style( 'scfwc-style', plugin_dir_url( __FILE__ ) . 'css/scfwc-style.css', '25062018' );
 	}
 
 	/**
@@ -75,7 +75,7 @@ class scfwc {
 	 * @since 1.0
 	 */
 	public static function scfwc_enqueue_script() {
-	  wp_enqueue_script( 'scfwc-js', plugin_dir_url( __FILE__ ) . 'js/scfwc-js.js', array( 'jquery' ) );
+	  wp_enqueue_script( 'scfwc-js', plugin_dir_url( __FILE__ ) . 'js/scfwc-js.js', array(), '25062018' );
 	}
 
 } // END class
