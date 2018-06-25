@@ -79,13 +79,13 @@ class scfwc_customizer {
         'section'     => 'scfwc_options',
         'type'        => 'multiple-select',
         'choices'     => array(
-          'scfwc_ship_mon' => __( 'Monday', 'scfwc' ),
-          'scfwc_ship_tue' => __( 'Tuesday', 'scfwc' ),
-          'scfwc_ship_wed' => __( 'Wednesday', 'scfwc' ),
-          'scfwc_ship_thu' => __( 'Thursday', 'scfwc' ),
-          'scfwc_ship_fri' => __( 'Friday', 'scfwc' ),
-          'scfwc_ship_sat' => __( 'Saturday', 'scfwc' ),
-          'scfwc_ship_sun' => __( 'Sunday', 'scfwc' ),
+          1 => __( 'Monday', 'scfwc' ),
+          2 => __( 'Tuesday', 'scfwc' ),
+        	3 => __( 'Wednesday', 'scfwc' ),
+          4 => __( 'Thursday', 'scfwc' ),
+          5 => __( 'Friday', 'scfwc' ),
+          6 => __( 'Saturday', 'scfwc' ),
+          7 => __( 'Sunday', 'scfwc' ),
         ),
       )
     ));
@@ -133,15 +133,7 @@ class scfwc_customizer {
    * @since 1.0
    */
   public function scfwc_sanitize_day( $input ) {
-    $scfwc_valid_day = array(
-      'scfwc_ship_mon',
-      'scfwc_ship_tue',
-      'scfwc_ship_wed',
-      'scfwc_ship_thu',
-      'scfwc_ship_fri',
-      'scfwc_ship_sat',
-      'scfwc_ship_sun',
-    );
+    $scfwc_valid_day = array( 1, 2, 3, 4, 5, 6, 7 );
     foreach ( $input as $key => $val ) {
       if ( in_array( $val, $scfwc_valid_day  ) ) {
         $input[ $key ] = $val;
