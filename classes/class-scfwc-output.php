@@ -73,12 +73,15 @@ class scfwc_output {
 		$sc_days = get_theme_mod( 'scfwc_select_days' );
 		// Get a numerical value for the day
 		$sc_day_x = date_format( $sc_today, 'N' );
+		// Set value of first day of shipping
+		$sc_day_first;
 		// Passed to date() as the number of days to add
 		$sc_day_plus;
 
 		foreach ( $sc_days as $sc_day => $sc_day_val ) :
 			// Picked up some sneaky white space from the array().
 			$sc_day_val = trim( $sc_day_val, ' ' );
+			$sc_day_first = $sc_day_val;
 			// Same day and before shipping time
 			if ( $sc_day_val == $sc_day_x && $sc_now < $sc_time_converted ) :
 				$sc_day_plus = 0;
@@ -88,12 +91,8 @@ class scfwc_output {
 				$sc_day_plus = $sc_day_val - $sc_day_x;
 				break;
 			else :
-				// One or multiple shipping day(s) but past shipping time, so we loop
-				// again to get the first available shipping day
-				foreach ( $sc_days as $sc_day => $sc_day_val ) :
-					$sc_day_plus = $sc_day_val + ( 7 - $sc_day_x );
-					break;
-				endforeach;
+				// Shipping day(s) have past
+				$sc_day_plus = $sc_day_first + ( 7 - $sc_day_x );
 			endif;
 		endforeach;
 
