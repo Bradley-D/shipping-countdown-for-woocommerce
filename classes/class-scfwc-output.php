@@ -73,37 +73,35 @@ class scfwc_output {
 		$sc_days = get_theme_mod( 'scfwc_select_days' );
 		// Get a numerical value for the day
 		$sc_day_x = date_format( $sc_today, 'N' );
-
-	//	var_dump( 'Now time ' . $sc_now . ' Converted time' . $sc_time_converted );
+		// Passed to date() as the number of days to add
+		$sc_day_plus;
 
 		foreach ( $sc_days as $sc_day => $sc_day_val ) :
 			// Picked up some sneaky white space from the array().
 			$sc_day_val = trim( $sc_day_val, ' ' );
-			var_dump( 'Outter loop: '. $sc_day_val . '<br/>' );
+			// Same day and before shipping time
 			if ( $sc_day_val == $sc_day_x && $sc_now < $sc_time_converted ) :
 				$sc_day_plus = 0;
 				break;
+			// Shipping day is in the future
 			elseif ( $sc_day_x < $sc_day_val ) :
 				$sc_day_plus = $sc_day_val - $sc_day_x;
 				break;
 			else :
+				// One or multiple shipping day(s) but past shipping time, so we loop
+				// again to get the first available shipping day
 				foreach ( $sc_days as $sc_day => $sc_day_val ) :
-					var_dump( 'Inner loop: '. $sc_day_val . 'INNEER END::<br/>' );
 					$sc_day_plus = $sc_day_val + ( 7 - $sc_day_x );
 					break;
 				endforeach;
-				// Need a condition for both days prior to today.
-				//$sc_day_plus = $sc_day_val + ( 7 - $sc_day_x );
 			endif;
 		endforeach;
 
 		$sc_shipping = date( 'M d, Y', strtotime( $sc_day_plus . ' days' ) ) . ' ' . $sc_time . ' UTC' . $sc_timezone;
-		var_dump( '<br/>Shipping string to JS: ' . $sc_shipping );
-
 		// Pass the new shipping into the JS Date()
 		// Init the clock and add the countdown to the dom #countdown ?>
 		<script type="text/javascript">
-			var deadline = new Date('<?php echo $sc_shipping; ?>');
+			var deadline = new Date('<?php echo esc_attr( $sc_shipping ); ?>');
 			initializeClock('shipping-countdown', deadline);
 		</script> <?php
 	}
