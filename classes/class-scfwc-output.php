@@ -53,46 +53,52 @@ class scfwc_output {
 	 * @since 1.0
    */
   function scfwc_output_js() {
-		$sc_today = new dateTime();
-		$sc_days_converted = array();
 		// Get wp set timezone
 		$sc_timezone_wp = get_option( 'gmt_offset' );
-		// If timezone is + we need to add the + for the JS
+		// PHP: Get time name to set timezone for php
+		$sc_get_timezone_name = timezone_name_from_abbr('', $sc_timezone_wp * 3600, false);
+		// Sets php timezone for all php only use
+		date_default_timezone_set( $sc_get_timezone_name );
+		// Create our date time object
+		$sc_today = new DateTime( $sc_get_timezone_name );
+		// JS: If timezone is + we need to add the + for the JS. Note: Used only for JS timezone, not for php
 		$sc_timezone = ( $sc_timezone_wp >= 0 ? '+' . $sc_timezone_wp : $sc_timezone_wp );
 		// Get shipping countdown shipping time
 		$sc_time = get_theme_mod( 'scfwc_time' );
 		// Convert the time string to unix timestamp
-		$sc_time_converted = strtotime( get_theme_mod( 'scfwc_time' ) );
+		$sc_time_converted = strtotime( $sc_time );
+		// Time now in unix time
+		$sc_now = strtotime( 'now' );
 		// Get shipping countdown days selected to ship
 		$sc_days = get_theme_mod( 'scfwc_select_days' );
 		// Get a numerical value for the day
 		$sc_day_x = date_format( $sc_today, 'N' );
 
-		//
-		if ( sizeof( $sc_days ) > 1 ) :
-			foreach ( $sc_days as $sc_day => $sc_day_val ) :
+	//	var_dump( 'Now time ' . $sc_now . ' Converted time' . $sc_time_converted );
 
-				// if ( $sc_day_val <= $sc_day_x ) :
-				// 	if ( strtotime( 'now' ) < $sc_time_converted  ) :
-				// 		// do things
-				// 	endif;
-				// endif;
+		foreach ( $sc_days as $sc_day => $sc_day_val ) :
+			// Picked up some sneaky white space from the array().
+			$sc_day_val = trim( $sc_day_val, ' ' );
+			var_dump( 'Outter loop: '. $sc_day_val . '<br/>' );
+			if ( $sc_day_val == $sc_day_x && $sc_now < $sc_time_converted ) :
+				$sc_day_plus = 0;
+				break;
+			elseif ( $sc_day_x < $sc_day_val ) :
+				$sc_day_plus = $sc_day_val - $sc_day_x;
+				break;
+			else :
+				foreach ( $sc_days as $sc_day => $sc_day_val ) :
+					var_dump( 'Inner loop: '. $sc_day_val . 'INNEER END::<br/>' );
+					$sc_day_plus = $sc_day_val + ( 7 - $sc_day_x );
+					break;
+				endforeach;
+				// Need a condition for both days prior to today.
+				//$sc_day_plus = $sc_day_val + ( 7 - $sc_day_x );
+			endif;
+		endforeach;
 
-			endforeach;
-		else :
-			foreach ( $sc_days as $sc_day => $sc_day_val ) :
-				if ( trim( $sc_day_val, ' ' ) == $sc_day_x ) :
-					// Check if we are before the shipping time
-					if ( strtotime( 'now' ) < $sc_time_converted ) :
-						// we are today and shipping today
-						$sc_shipping = date_format( $sc_today, 'M d, Y' ) . ' ' . $sc_time . ' UTC' . $sc_timezone;
-						else :
-						// we are shipping next week on this days
-						$sc_shipping = date( 'M d, Y', strtotime( '7 days' ) ) . ' ' . $sc_time . ' UTC' . $sc_timezone;
-					endif;
-				endif;
-			endforeach;
-		endif;
+		$sc_shipping = date( 'M d, Y', strtotime( $sc_day_plus . ' days' ) ) . ' ' . $sc_time . ' UTC' . $sc_timezone;
+		var_dump( '<br/>Shipping string to JS: ' . $sc_shipping );
 
 		// Pass the new shipping into the JS Date()
 		// Init the clock and add the countdown to the dom #countdown ?>
