@@ -33,55 +33,63 @@ if ( ! defined( 'ABSPATH' ) ) :
 	exit;
 endif;
 
-class scfwc {
-
-	/**
-	 * The Constructor.
-	 * @since 1.0
-	 */
-	public function __construct() {
-		$this->scfwc_add_actions_filters();
-	}
-
-	/**
-	 * Init.
-	 * @since 1.0
-	 */
-	public static function scfwc_add_actions_filters() {
-		self::scfwc_includes();
-		add_action( 'wp_enqueue_scripts', __CLASS__ . '::scfwc_enqueue_style' );
-		add_action( 'wp_enqueue_scripts', __CLASS__ . '::scfwc_enqueue_script' );
-	}
-
-	/**
-	 * Add the includes.
-	 * @since 1.0
-	 */
-	public static function scfwc_includes() {
-		require_once( 'classes/class-scfwc-output.php');
-		require_once( 'classes/class-scfwc-customizer.php');
-	}
-
-	/**
-	 * Enqueue styles.
-	 * @since 1.0
-	 */
-	public static function scfwc_enqueue_style() {
-		wp_enqueue_style( 'scfwc-style', plugin_dir_url( __FILE__ ) . 'css/scfwc-style.css', '25062018' );
-	}
-
-	/**
-	 * Enqueue scripts.
-	 * @since 1.0
-	 */
-	public static function scfwc_enqueue_script() {
-	  wp_enqueue_script( 'scfwc-js', plugin_dir_url( __FILE__ ) . 'js/scfwc-js.js', array(), '25062018' );
-	}
-
-} // END class
-
 /**
- * Instantiate the class and let the awesomeness happen!
+ * Check if WooCommerce is active.
  * @since 1.0
  */
- $scfwc = new scfwc();
+if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) :
+
+	class scfwc {
+
+		/**
+		 * The Constructor.
+		 * @since 1.0
+		 */
+		public function __construct() {
+			$this->scfwc_add_actions_filters();
+		}
+
+		/**
+		 * Init.
+		 * @since 1.0
+		 */
+		public static function scfwc_add_actions_filters() {
+			self::scfwc_includes();
+			add_action( 'wp_enqueue_scripts', __CLASS__ . '::scfwc_enqueue_style' );
+			add_action( 'wp_enqueue_scripts', __CLASS__ . '::scfwc_enqueue_script' );
+		}
+
+		/**
+		 * Add the includes.
+		 * @since 1.0
+		 */
+		public static function scfwc_includes() {
+			require_once( 'classes/class-scfwc-output.php');
+			require_once( 'classes/class-scfwc-customizer.php');
+		}
+
+		/**
+		 * Enqueue styles.
+		 * @since 1.0
+		 */
+		public static function scfwc_enqueue_style() {
+			wp_enqueue_style( 'scfwc-style', plugin_dir_url( __FILE__ ) . 'css/scfwc-style.css', '25062018' );
+		}
+
+		/**
+		 * Enqueue scripts.
+		 * @since 1.0
+		 */
+		public static function scfwc_enqueue_script() {
+		  wp_enqueue_script( 'scfwc-js', plugin_dir_url( __FILE__ ) . 'js/scfwc-js.js', array(), '25062018' );
+		}
+
+	} // END class
+
+	/**
+	 * Instantiate the class and let the awesomeness happen!
+	 * @since 1.0
+	 */
+	 $scfwc = new scfwc();
+
+endif;
