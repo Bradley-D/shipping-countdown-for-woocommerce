@@ -2,7 +2,7 @@
 /*
 Plugin Name: Shipping Countdown for WooCommerce
 Plugin URI:
-Description:
+Description: Shipping Countdown For WooCommerce allows you to add a countdown timer to the product page to show shoppers when you will ship the product.
 Version: 1.0
 Author: Bradley Davis
 Author URI: https://bradley-davis.com
