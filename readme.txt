@@ -15,6 +15,17 @@ Shipping Countdown For WooCommerce allows you to add a countdown timer to the pr
 
 == Installation ==
 
+= Requires WooCommerce to be installed. =
+1. Upload WooCommerce Unit Of Measure to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. Go to 'Appearance' -> 'Customize' from the admin sidebar menu.
+4. Go to 'WooCommerce' -> 'Shipping Countdown'.
+5. Enter closing time for countdown calculation.
+6. Select the days you ship on, multiple days can be selected.
+7. Select the 'Add shipping countdown to' dropdown and pick the position you would like the countdown to be displayed.
+4. Publish
+5. That's it.
+
 == Frequently Asked Questions ==
 
 == Screenshots ==
