@@ -1,8 +1,8 @@
 <?php
 /*
- * PLUGIN_NAME class
+ * Shipping Countdown for WooCommerce
  *
- * Describe what this class does
+ * All the customizer settings for Shipping Countdown for WooCommerce
  *
  * @author
  * @package
@@ -44,11 +44,24 @@ class scfwc_customizer {
       array(
         'title'      => __( 'Shipping Countdown', 'scfwc' ),
         'panel'      => 'woocommerce',
-        'type'       => 'option',
         'capability' => '',
         'priority'   => 500,
       )
     );
+
+		$wp_customize->add_setting( 'scfwc_title',
+			array(
+				'default'           => 'Shipping Location',
+				'sanitize_callback' => 'wp_filter_nohtml_kses',
+		) );
+		$wp_customize->add_control( 'scfwc_title',
+			array(
+				'type' => 'text',
+				'section' => 'scfwc_options',
+			  'label' => __( 'Title For Shipping Countdown', 'scfwc' ),
+			  'description' => __( 'This will change the title above the countdown clock, leave blank if you do not require a title.', 'scfwc' ),
+			)
+		);
 
     // Choose a time
     $wp_customize->add_setting( 'scfwc_time',
@@ -73,7 +86,7 @@ class scfwc_customizer {
     );
     $wp_customize->add_control( new scfwc_dropdown_custom_control( $wp_customize, 'scfwc_select_days',
       array(
-        'label'       => __( 'Select shipping days', 'scfwc' ),
+        'label'       => __( 'Select Shipping Days', 'scfwc' ),
         'description' => __( 'Choose the days that you ship products. You can select multiple days', 'scfwc'),
         'settings'    => 'scfwc_select_days',
         'section'     => 'scfwc_options',
@@ -100,7 +113,7 @@ class scfwc_customizer {
     );
     $wp_customize->add_control( 'scfwc_render_location',
       array(
-        'label'       => __( 'Add shipping countdown to:', 'scfwc' ),
+        'label'       => __( 'Add Shipping Countdown To:', 'scfwc' ),
         'description' => __( 'Choose the location that you would like the shipping countdown to display.', 'scfwc'),
         'settings'    => 'scfwc_render_location',
         'section'     => 'scfwc_options',
@@ -116,18 +129,18 @@ class scfwc_customizer {
 	}
 
 	/**
-	 * Check the time option is real
+	 * Check the time option is real.
 	 * @param  string $input
 	 * @return string $input
 	 * @since 1.0
 	 */
 	public function scfwc_sanitize_time( $input ) {
 		$time = new DateTime( $input );
-		return $time->format('H:i');
+		return $time->format( 'H:i' );
 	}
 
   /**
-   * Check the shipping day option is real
+   * Check the shipping day option is real.
    * @param  string[] $input
    * @return string $input
    * @since 1.0
@@ -143,7 +156,7 @@ class scfwc_customizer {
   }
 
   /**
-   * Check the render locatoin option is real
+   * Check the render locatoin option is real.
 	 * @param  string[] $input
    * @return string $input
    * @since 1.0

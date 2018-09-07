@@ -47,6 +47,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		 */
 		public function __construct() {
 			$this->scfwc_add_actions_filters();
+			$this->scfwc_uninstall_hooks();
 		}
 
 		/**
@@ -66,6 +67,11 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		public static function scfwc_includes() {
 			require_once( 'classes/class-scfwc-output.php');
 			require_once( 'classes/class-scfwc-customizer.php');
+			require_once( 'classes/class-scfwc-uninstall.php');
+		}
+
+		public static function scfwc_uninstall_hooks() {
+			register_uninstall_hook( __FILE__, array( 'scfwc_uninstall', 'scfc_delete_data' ) );
 		}
 
 		/**

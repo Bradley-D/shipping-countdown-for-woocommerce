@@ -26,11 +26,6 @@ Shipping Countdown For WooCommerce allows you to add a countdown timer to the pr
 4. Publish
 5. That's it.
 
-== Frequently Asked Questions ==
-
-== Screenshots ==
-
-
 == Changelog ==
 
 = 1.0 =

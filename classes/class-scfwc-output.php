@@ -1,8 +1,8 @@
 <?php
 /*
- * PLUGIN_NAME class
+ * Shipping Countdown for WooCommerce
  *
- * Describe what this class does
+ * The output on the front-end of all the info.
  *
  * @author
  * @package
@@ -109,9 +109,11 @@ class scfwc_output {
 	 * Add html to prodcut page for binding the countdown
 	 * @since 1.0
 	 */
-	function scfwc_html_product() { ?>
+	function scfwc_html_product() {
+		// Title for shipping countdown
+		$sc_title = get_theme_mod( 'scfwc_title' ); ?>
 			<div id="shipping-countdown">
-				<p class="title">Shipping Location</p>
+				<p class="title"><?php _e( $sc_title, 'scfwc' ); ?> </p>
 			  <div>
 			    <span class="days"></span>
 			    <div class="smalltext">Days</div>
