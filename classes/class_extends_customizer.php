@@ -1,7 +1,13 @@
 <?php
 /**
-* Class to create a custom multiselect dropdown control
-*/
+ * Shipping Countdown for WooCommerce
+ *
+ * Class to create a custom multiselect dropdown control
+ *
+ * @author  Bradley Davis
+ * @package Shipping Countdown for WooCommerce
+ * @since   1.0
+ */
 class scfwc_dropdown_custom_control extends WP_Customize_Control {
   /**
   * Render the content on the theme customizer page

@@ -4,9 +4,9 @@
  *
  * The output on the front-end of all the info.
  *
- * @author
- * @package
- * @since 1.0
+ * @author  Bradley Davis
+ * @package Shipping Countdown for WooCommerce
+ * @since   1.0
  */
 if ( ! defined( 'ABSPATH' ) ) :
 	exit;

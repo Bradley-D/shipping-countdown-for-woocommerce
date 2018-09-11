@@ -9,11 +9,11 @@ Author URI: https://bradley-davis.com
 License: GPL3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: scfwc
-@author
-@package
-@since		 1.0
+@author		Bradley Davis
+@package	Shipping Countdown for WooCommerce
+@since		1.0
 
-PLUGIN NAME WITH DESCRIPTION.
+Shipping Countdown for WooCommerce allows you to add a countdown timer to the product page to show shoppers when you will ship the product.
 
 Copyright (C) 2014
 This program is free software: you can redistribute it and/or modify

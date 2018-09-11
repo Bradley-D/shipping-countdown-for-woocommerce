@@ -5,7 +5,8 @@
  * Remove the data from the DB on uninstall
  *
  * @author  Bradley Davis
- * @since 1.0
+ * @package Shipping Countdown for WooCommerce
+ * @since   1.0
  */
  if ( ! defined( 'ABSPATH' ) ) {
    exit; // Exit if accessed directly.
